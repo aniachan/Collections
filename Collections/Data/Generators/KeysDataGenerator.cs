@@ -34,7 +34,7 @@ public class KeysDataGenerator
     {
         foreach (var item in ExcelCache<Item>.GetSheet())
         {
-            var type = item.ItemAction.Value.Action.Value.ActionCategory.RowId;
+            var type = item.ItemAction.Value.Action.RowId;
             var collectibleData = item.ItemAction.Value.Data;
             var additionalData = item.AdditionalData.RowId;
             if (type == MountItemActionType)

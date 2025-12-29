@@ -20,7 +20,7 @@ public class QuestsDataGenerator : BaseDataGenerator<Quest>
                 {
                     Item? item = ExcelCache<Item>.GetSheet().GetRow(reward.RowId);
                     // we only care about counting items that unlock a collectible or are glam
-                    if(item != null && item.HasValue && item.Value.ItemAction.RowId != 0 || item.Value.ItemSortCategory.RowId == 5)
+                    if(item != null && item.HasValue && item.Value.ItemAction.Value.Action.RowId != 0 || item.Value.ItemSortCategory.RowId == 5)
                         items.Add(item.Value);
                 }
             }

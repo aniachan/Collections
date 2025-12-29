@@ -77,9 +77,9 @@ public class InstancesDataGenerator : BaseDataGenerator<ContentFinderCondition>
 
     private void AddItemInstancePair(uint itemId, uint contentFinderConditionId)
     {
-        var contentFinderCondition = contentFinderConditionList.GetRow(contentFinderConditionId);
+        var contentFinderCondition = contentFinderConditionList.GetRow(contentFinderConditionId).GetValueOrDefault();
 
-        AddEntry(itemId, contentFinderCondition.Value);
+        AddEntry(itemId, contentFinderCondition);
 
         if (!contentFinderConditionToItems.ContainsKey(contentFinderConditionId))
         {

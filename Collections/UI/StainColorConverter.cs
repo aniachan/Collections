@@ -35,7 +35,7 @@ public class StainColorConverter
     {
         if (hexColor.Length != 6)
         {
-            throw new ArgumentException("Invalid HEX color string.", nameof(hexColor));
+            throw new ArgumentException("Invalid HEX color string.", hexColor);
         }
 
         var r = Convert.ToInt32(hexColor.Substring(0, 2), 16);
@@ -58,7 +58,7 @@ public class StainColorConverter
     public static string DecimalToHex(int decimalNumber)
     {
         if (decimalNumber == 0)
-            return "0";
+            return "000000";
 
         var hexDigits = "0123456789ABCDEF";
         var hexString = "";

@@ -202,7 +202,7 @@ public class DataProvider
             FramerKitCollectible.CollectionName,
             10,
             ExcelCache<Item>.GetSheet().AsParallel()
-            .Where(entry => entry.ItemAction.Value.RowId == 29459)
+            .Where(entry => entry.ItemAction.Value.Action.RowId == 29459)
             .Select(entry => (ICollectible)CollectibleCache<FramerKitCollectible, Item>.Instance.GetObject(entry))
             .ToList()
             );
