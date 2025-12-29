@@ -1,5 +1,3 @@
-using FFXIVClientStructs.FFXIV.Client.Game;
-
 namespace Collections;
 
 public class CurrencyDataGenerator

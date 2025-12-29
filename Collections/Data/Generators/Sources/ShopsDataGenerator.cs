@@ -369,14 +369,14 @@ public class ShopsDataGenerator : BaseDataGenerator<Shop>
             foreach (var entry in specialShop.Item)
             {
                 var costList = new List<(Item Item, int Amount)>();
-
+                
                 foreach (var cost in entry.ItemCosts)
                 {
                     if (cost.ItemCost.RowId == 0)
                     {
                         continue;
                     }
-                    var Item = ItemSheet.GetRow(cost.ItemCost.RowId);
+                    var Item = ItemSheet.GetRow(SpecialShopExtensions.FixItemId(specialShop, cost.ItemCost.RowId, specialShop.UseCurrencyType));
                     if (Item != null)
                     {
                         costList.Add((Item.Value, (int)cost.CurrencyCost));
