@@ -5,7 +5,7 @@ namespace Collections;
 public class DataProvider
 {
     public List<ClassJob> SupportedClassJobs = new();
-    public List<StainAdapter> SupportedStains { get; set; }
+    public List<Stain> SupportedStains { get; set; }
     public readonly List<EquipSlot> SupportedEquipSlots = new()
     {
         // ordered this way to draw them in 2 columns more efficiently
@@ -55,7 +55,7 @@ public class DataProvider
         .Where(entry => entry.ClassJobCategory.RowId > 0 && (entry.DohDolJobIndex >= 0 || entry.JobIndex > 0)).ToList();
 
         // Stains
-        SupportedStains = ExcelCache<StainAdapter>.GetSheet().Where(s => s.Name != "").ToList();
+        SupportedStains = ExcelCache<Stain>.GetSheet().Where(s => s.Name != "").ToList();
 
         // Collections
         InitializeGlamourCollection();
@@ -78,11 +78,11 @@ public class DataProvider
         collections[typeof(GlamourCollectible)] = (
             GlamourCollectible.CollectionName,
             0,
-            ExcelCache<ItemAdapter>.GetSheet().AsParallel()
+            ExcelCache<Item>.GetSheet().AsParallel()
             .Where(entry => entry.LevelEquip >= 1)
-            .Where(entry => SupportedEquipSlots.Contains(entry.EquipSlot))
+            .Where(entry => SupportedEquipSlots.Contains(entry.GetEquipSlot()))
             .Where(entry => entry.RowId > 1599) // Filter Dated and Weathered items (from 1.0)
-            .Select(entry => (ICollectible)CollectibleCache<GlamourCollectible, ItemAdapter>.Instance.GetObject(entry))
+            .Select(entry => (ICollectible)CollectibleCache<GlamourCollectible, Item>.Instance.GetObject(entry))
             .ToList()
             );
     }
@@ -188,10 +188,10 @@ public class DataProvider
         collections[typeof(OutfitsCollectible)] = (
             OutfitsCollectible.CollectionName,
             9,
-            ExcelCache<ItemAdapter>.GetSheet().AsParallel()
+            ExcelCache<Item>.GetSheet().AsParallel()
             .Where(entry => entry.LevelEquip >= 1)
             .Where(entry => entry.ItemUICategory.Value.RowId == 112)
-            .Select(entry => (ICollectible)CollectibleCache<OutfitsCollectible, ItemAdapter>.Instance.GetObject(entry))
+            .Select(entry => (ICollectible)CollectibleCache<OutfitsCollectible, Item>.Instance.GetObject(entry))
             .ToList()
             );
     }
@@ -201,9 +201,9 @@ public class DataProvider
         collections[typeof(FramerKitCollectible)] = (
             FramerKitCollectible.CollectionName,
             10,
-            ExcelCache<ItemAdapter>.GetSheet().AsParallel()
-            .Where(entry => entry.ItemAction.Value.Type == 29459)
-            .Select(entry => (ICollectible)CollectibleCache<FramerKitCollectible, ItemAdapter>.Instance.GetObject(entry))
+            ExcelCache<Item>.GetSheet().AsParallel()
+            .Where(entry => entry.ItemAction.Value.RowId == 29459)
+            .Select(entry => (ICollectible)CollectibleCache<FramerKitCollectible, Item>.Instance.GetObject(entry))
             .ToList()
             );
     }

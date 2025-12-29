@@ -2,7 +2,7 @@ namespace Collections;
 
 public class KeysDataGenerator
 {
-    public readonly Dictionary<Type, Dictionary<uint, ItemAdapter>> collectibleIdToItem = new();
+    public readonly Dictionary<Type, Dictionary<uint, Item>> collectibleIdToItem = new();
     public readonly Dictionary<Type, Dictionary<uint, Quest>> collectibleIdToQuest = new();
     public readonly Dictionary<Type, Dictionary<uint, ContentFinderCondition>> collectibleIdToInstance = new();
     public readonly Dictionary<Type, Dictionary<uint, Achievement>> collectibleIdToAchievement = new();
@@ -32,9 +32,9 @@ public class KeysDataGenerator
 
     private void PopulateItemData()
     {
-        foreach (var item in ExcelCache<ItemAdapter>.GetSheet())
+        foreach (var item in ExcelCache<Item>.GetSheet())
         {
-            var type = item.ItemAction.Value.Type;
+            var type = item.ItemAction.Value.Action.Value.ActionCategory.RowId;
             var collectibleData = item.ItemAction.Value.Data;
             var additionalData = item.AdditionalData.RowId;
             if (type == MountItemActionType)
@@ -73,7 +73,7 @@ public class KeysDataGenerator
             }
             else if (type == FramerKitItemActionType)
             {
-                AddCollectibleKeyEntry(collectibleIdToItem, typeof(ItemAdapter), item.AdditionalData.RowId, item);
+                AddCollectibleKeyEntry(collectibleIdToItem, typeof(Item), item.AdditionalData.RowId, item);
             }
         }
     }

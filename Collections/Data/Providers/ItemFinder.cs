@@ -80,11 +80,11 @@ public unsafe class ItemFinder
     }
 
     // Helper function to find the actual item refs stored within an outfit
-    public List<ItemAdapter> ItemsInOutfit(uint itemId)
+    public List<Item> ItemsInOutfit(uint itemId)
     {
         return ItemIdsInOutfit(itemId)
-            .Where(id => ExcelCache<ItemAdapter>.GetSheet().GetRow(id).HasValue)
-            .Select(id => ExcelCache<ItemAdapter>.GetSheet().GetRow(id).Value)
+            .Where(id => ExcelCache<Item>.GetSheet().GetRow(id).HasValue)
+            .Select(id => ExcelCache<Item>.GetSheet().GetRow(id).Value)
             .ToList();
     }
 

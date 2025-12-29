@@ -46,7 +46,7 @@ public class EmoteCollectible : Collectible<Emote>, ICreateable<EmoteCollectible
 
     protected override int GetIconId()
     {
-        return ExcelRow.Icon;
+        return (int)ExcelRow.Icon;
     }
 
     public override unsafe void Interact()

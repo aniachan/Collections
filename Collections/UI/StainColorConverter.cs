@@ -10,15 +10,15 @@ public struct RGBColor
 public class StainColorConverter
 {
     // Find the closest stain based on a given color
-    public static StainAdapter FindClosestStain(Vector3 color)
+    public static Stain FindClosestStain(Vector3 color)
     {
         var selectedColor = Vector3ToRGBColor(color);
         var minDistance = double.MaxValue;
-        StainAdapter? closestStain = null;
+        Stain? closestStain = null;
 
         foreach (var stain in Services.DataProvider.SupportedStains)
         {
-            var distance = CalculateDistance(selectedColor, stain.RGBcolor);
+            var distance = CalculateDistance(selectedColor, stain.RGBcolor());
 
             if (distance < minDistance)
             {
@@ -27,7 +27,7 @@ public class StainColorConverter
             }
         }
 
-        return (StainAdapter)closestStain!;
+        return (Stain)closestStain!;
     }
 
     // Convert a HEX color string to an RGBColor

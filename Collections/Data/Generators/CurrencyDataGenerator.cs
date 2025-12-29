@@ -63,7 +63,7 @@ public class CurrencyDataGenerator
         }
 
         // generate currency items where we know categories
-        var ItemSheet = ExcelCache<ItemAdapter>.GetSheet();
+        var ItemSheet = ExcelCache<Item>.GetSheet();
         foreach (var item in ItemSheet)
         {
             switch (item.ItemSortCategory.RowId)

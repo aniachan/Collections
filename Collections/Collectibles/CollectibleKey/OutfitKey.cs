@@ -1,15 +1,15 @@
 namespace Collections;
 
-public class OutfitKey : ItemKey, ICreateable<OutfitKey, (ItemAdapter, int)>
+public class OutfitKey : ItemKey, ICreateable<OutfitKey, (Item, int)>
 {
     private IconHandler iconHandler { get; init; }
     // stores first item in an outfit
-    public ItemAdapter FirstItem { get; init; }
+    public Item FirstItem { get; init; }
 
-    public OutfitKey((ItemAdapter, int) input) : base(input)
+    public OutfitKey((Item, int) input) : base(input)
     {
         iconHandler = new IconHandler(input.Item1.Icon);
-        List<ItemAdapter> relatedItems = Services.ItemFinder.ItemsInOutfit(input.Item1.RowId);
+        List<Item> relatedItems = Services.ItemFinder.ItemsInOutfit(input.Item1.RowId);
         // this should always be true, but safeguard here just in case
         if (relatedItems.Count > 0)
         {
@@ -17,12 +17,12 @@ public class OutfitKey : ItemKey, ICreateable<OutfitKey, (ItemAdapter, int)>
         }
     }
 
-    public static new OutfitKey Create((ItemAdapter, int) input)
+    public static new OutfitKey Create((Item, int) input)
     {
         return new(input);
     }
 
-    protected override List<ICollectibleSource> GetCollectibleSources((ItemAdapter, int) input)
+    protected override List<ICollectibleSource> GetCollectibleSources((Item, int) input)
     {
         var excelRow = input.Item1;
         var collectibleSources = new List<ICollectibleSource>();
@@ -34,7 +34,7 @@ public class OutfitKey : ItemKey, ICreateable<OutfitKey, (ItemAdapter, int)>
         foreach(var item in relatedItems)
         {
             // try and re-use previous item sources
-            var key = CollectibleKeyCache<ItemKey, ItemAdapter>.Instance.GetObject((item, 0));
+            var key = CollectibleKeyCache<ItemKey, Item>.Instance.GetObject((item, 0));
             if(key is not null)
             {
                 // on the first pass, we'll just copy over the first item's sources

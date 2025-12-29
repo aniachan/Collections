@@ -12,13 +12,13 @@ public class QuestsDataGenerator : BaseDataGenerator<Quest>
         foreach (var quest in questSheet)
         {
             var rewards = quest.Reward;
-            var items = new List<ItemAdapter>();
+            var items = new List<Item>();
 
             foreach (var reward in rewards)
             {
                 if (reward.RowId != 0)
                 {
-                    ItemAdapter? item = ExcelCache<ItemAdapter>.GetSheet().GetRow(reward.RowId);
+                    Item? item = ExcelCache<Item>.GetSheet().GetRow(reward.RowId);
                     // we only care about counting items that unlock a collectible or are glam
                     if(item != null && item.HasValue && item.Value.ItemAction.RowId != 0 || item.Value.ItemSortCategory.RowId == 5)
                         items.Add(item.Value);

@@ -1,14 +1,14 @@
 namespace Collections;
 
-public class OutfitsCollectible : Collectible<ItemAdapter>, ICreateable<OutfitsCollectible, ItemAdapter>
+public class OutfitsCollectible : Collectible<Item>, ICreateable<OutfitsCollectible, Item>
 {
     public new static string CollectionName => "Outfits";
 
-    public OutfitsCollectible(ItemAdapter excelRow) : base(excelRow)
+    public OutfitsCollectible(Item excelRow) : base(excelRow)
     {
     }
 
-    public static OutfitsCollectible Create(ItemAdapter excelRow)
+    public static OutfitsCollectible Create(Item excelRow)
     {
         return new(excelRow);
     }

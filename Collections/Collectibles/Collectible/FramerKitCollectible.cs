@@ -2,15 +2,15 @@ using FFXIVClientStructs.FFXIV.Client.Game.UI;
 
 namespace Collections;
 
-public class FramerKitCollectible: Collectible<ItemAdapter>, ICreateable<FramerKitCollectible, ItemAdapter>
+public class FramerKitCollectible: Collectible<Item>, ICreateable<FramerKitCollectible, Item>
 {
     public new static string CollectionName => "Framer Kits";
 
-    public FramerKitCollectible(ItemAdapter excelRow) : base(excelRow)
+    public FramerKitCollectible(Item excelRow) : base(excelRow)
     {
     }
 
-    public static FramerKitCollectible Create(ItemAdapter excelRow)
+    public static FramerKitCollectible Create(Item excelRow)
     {
         return new(excelRow);
     }

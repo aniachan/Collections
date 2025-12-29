@@ -2,18 +2,18 @@ using FFXIVClientStructs.FFXIV.Component.Excel;
 
 namespace Collections;
 
-public class GlamourCollectible : Collectible<ItemAdapter>, ICreateable<GlamourCollectible, ItemAdapter>
+public class GlamourCollectible : Collectible<Item>, ICreateable<GlamourCollectible, Item>
 {
     public static string CollectionName => "Glamour";
 
-    public GlamourCollectible(ItemAdapter excelRow) : base(excelRow)
+    public GlamourCollectible(Item excelRow) : base(excelRow)
     {
         SortOptions.Add(new CollectibleSortOption("Dye Channels", (c) => c is GlamourCollectible ? ((GlamourCollectible)c).ExcelRow.DyeCount : -1, true));
         SortOptions.Add(new CollectibleSortOption("Level", (c) => c is GlamourCollectible ? ((GlamourCollectible)c).ExcelRow.LevelEquip : -1, true, (FontAwesomeIcon.SortNumericDownAlt, FontAwesomeIcon.SortNumericUpAlt)));
         SortOptions.Add(new CollectibleSortOption("Model", (c) => c is GlamourCollectible ? ((GlamourCollectible)c).ExcelRow.ModelMain : 0, false, null));
     }
 
-    public static GlamourCollectible Create(ItemAdapter excelRow)
+    public static GlamourCollectible Create(Item excelRow)
     {
         return new(excelRow);
     }

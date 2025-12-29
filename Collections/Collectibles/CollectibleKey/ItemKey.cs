@@ -2,31 +2,31 @@ using System.Linq.Expressions;
 
 namespace Collections;
 
-public class ItemKey : CollectibleKey<(ItemAdapter, int)>, ICreateable<ItemKey, (ItemAdapter, int)>
+public class ItemKey : CollectibleKey<(Item, int)>, ICreateable<ItemKey, (Item, int)>
 {
     private IconHandler iconHandler { get; init; }
 
-    public ItemKey((ItemAdapter, int) input) : base(input)
+    public ItemKey((Item, int) input) : base(input)
     {
         iconHandler = new IconHandler(input.Item1.Icon);
     }
 
-    public static ItemKey Create((ItemAdapter, int) input)
+    public static ItemKey Create((Item, int) input)
     {
         return new(input);
     }
 
-    protected override string GetName((ItemAdapter, int) input)
+    protected override string GetName((Item, int) input)
     {
         return input.Item1.Name.ToString();
     }
 
-    protected override uint GetId((ItemAdapter, int) input)
+    protected override uint GetId((Item, int) input)
     {
         return input.Item1.RowId;
     }
 
-    protected override List<ICollectibleSource> GetCollectibleSources((ItemAdapter, int) input)
+    protected override List<ICollectibleSource> GetCollectibleSources((Item, int) input)
     {
         var excelRow = input.Item1;
         var collectibleSources = new List<ICollectibleSource>();

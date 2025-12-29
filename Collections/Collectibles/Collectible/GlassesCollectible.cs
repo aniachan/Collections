@@ -35,7 +35,7 @@ public class GlassesCollectible: Collectible<Glasses>, ICreateable<GlassesCollec
     {
         // trying to use the underlying unlock item for glasses, as the unlock description is cooler.
         if(CollectibleKey != null)
-            return ExcelCache<ItemAdapter>.GetSheet().GetRow(CollectibleKey.Id).Value.Description.ToString();
+            return ExcelCache<Item>.GetSheet().GetRow(CollectibleKey.Id).Value.Description.ToString();
         
         return ExcelRow.Description.ToString();
     }

@@ -2,12 +2,12 @@ namespace Collections;
 
 public class ContainerSource : CollectibleSource
 {
-    private ItemAdapter container { get; init; }
+    private Item container { get; init; }
     private ICollectibleKey CollectibleKey { get; init; }
     public ContainerSource(uint containerId, int initDepth)
     {
-        container = ExcelCache<ItemAdapter>.GetSheet().GetRow(containerId).Value;
-        CollectibleKey = CollectibleKeyCache<ItemKey, ItemAdapter>.Instance.GetObject((container, initDepth));
+        container = ExcelCache<Item>.GetSheet().GetRow(containerId).Value;
+        CollectibleKey = CollectibleKeyCache<ItemKey, Item>.Instance.GetObject((container, initDepth));
     }
 
     public override string GetName()

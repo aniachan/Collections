@@ -211,7 +211,7 @@ public class OutfitsTab : IDrawable
         Services.PreviewExecutor.ResetAllPreview();
         foreach (var (equipSlot, glamourItem) in EquipSlotsWidget.currentGlamourSet.Items)
         {
-            var collectible = CollectibleCache<GlamourCollectible, ItemAdapter>.Instance.GetObject(glamourItem.ItemId);
+            var collectible = CollectibleCache<GlamourCollectible, Item>.Instance.GetObject(glamourItem.ItemId);
             Services.PreviewExecutor.PreviewWithTryOnRestrictions(collectible, glamourItem.Stain0Id, glamourItem.Stain1Id, Services.Configuration.ForceTryOn);
         }
     }
