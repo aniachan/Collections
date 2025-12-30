@@ -4,18 +4,18 @@ namespace Collections;
 
 public class InstanceSource : CollectibleSource
 {
-    private ContentFinderCondition ContentFinderCondition { get; init; }
+    private ContentFinderCondition ContentFinderConditionInternal { get; init; }
     public InstanceSource(ContentFinderCondition contentFinderCondition)
     {
-        ContentFinderCondition = contentFinderCondition;
+        ContentFinderConditionInternal = contentFinderCondition;
     }
 
     public override string GetName()
     {
-        return ContentFinderCondition.Name.ToString();
+        return ContentFinderConditionInternal.Name.ToString();
     }
 
-    private List<SourceCategory> sourceType;
+    private List<SourceCategory> sourceType = [];
     public override List<SourceCategory> GetSourceCategories()
     {
         if (sourceType != null)
@@ -24,7 +24,7 @@ public class InstanceSource : CollectibleSource
         }
 
         sourceType = new List<SourceCategory>();
-        var contentType = ContentFinderCondition.ContentType;
+        var contentType = ContentFinderConditionInternal.ContentType;
         switch (contentType.Value.RowId)
         {
             case 6:
@@ -53,14 +53,14 @@ public class InstanceSource : CollectibleSource
 
     public override void DisplayLocation()
     {
-        DutyFinderOpener.OpenRegularDuty(ContentFinderCondition.RowId);
+        DutyFinderOpener.OpenRegularDuty(ContentFinderConditionInternal.RowId);
     }
 
-    public static int defaultIconId = 61801;
+    public static int defaultIconId = 061801;
     protected override int GetIconId()
     {
-        var contentType = ContentFinderCondition.ContentType.Value;
-        var contentIconId = contentType.Icon;
+        var contentType = ContentFinderConditionInternal.ContentType.ValueNullable;
+        var contentIconId = contentType?.Icon ?? 0;
         if (contentIconId == 0)
         {
             return defaultIconId;
@@ -73,6 +73,6 @@ public class InstanceSource : CollectibleSource
 
     public override InstanceSource Clone()
     {
-        return new InstanceSource(ContentFinderCondition);
+        return new InstanceSource(ContentFinderConditionInternal);
     }
 }

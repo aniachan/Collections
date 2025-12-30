@@ -15,7 +15,7 @@ public class ShopSource : CollectibleSource
         foreach (var cost in shopEntry.Cost)
         {
             // Recursively create collectibleKey (only allow 1 degree) to allow for the currency to determine the source category
-            costItems.Add((CollectibleKeyCache<ItemKey, ItemAdapter>.Instance.GetObject((cost.Item, initDepth)), cost.Amount));
+            costItems.Add((CollectibleKeyCache<ItemKey, Item>.Instance.GetObject((cost.Item, initDepth)), cost.Amount));
         }
     }
 

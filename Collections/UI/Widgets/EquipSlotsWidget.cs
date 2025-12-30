@@ -119,7 +119,7 @@ public class EquipSlotsWidget
 
             // Draw Palette Widget button
             var paletteButtonColor = paletteWidgets[equipSlot].ActiveStainPrimary.RowId == 0 ?
-                paletteWidgetButtonDefaultColor : paletteWidgets[equipSlot].ActiveStainPrimary.VecColor;
+                paletteWidgetButtonDefaultColor : paletteWidgets[equipSlot].ActiveStainPrimary.VecColor();
             ImGui.PushStyleColor(ImGuiCol.Text, paletteButtonColor);
             ImGui.PushStyleColor(ImGuiCol.ButtonHovered, new Vector4(0, 0, 0, 0));
             ImGuiComponents.IconButton(FontAwesomeIcon.PaintBrush);
@@ -217,10 +217,10 @@ public class EquipSlotsWidget
         currentGlamourSet.Items.Clear();
         
         // add items in outfit
-        List<ItemAdapter> items = Services.ItemFinder.ItemsInOutfit(args.Collectible.ExcelRow.RowId);
+        List<Item> items = Services.ItemFinder.ItemsInOutfit(args.Collectible.ExcelRow.RowId);
         foreach (var item in items)
         {
-            currentGlamourSet.SetItem(item, paletteWidgets[item.EquipSlot].ActiveStainPrimary.RowId, paletteWidgets[item.EquipSlot].ActiveStainSecondary.RowId);
+            currentGlamourSet.SetItem(item, paletteWidgets[item.GetEquipSlot()].ActiveStainPrimary.RowId, paletteWidgets[item.GetEquipSlot()].ActiveStainSecondary.RowId);
         }
     }
 
@@ -228,7 +228,7 @@ public class EquipSlotsWidget
     {
         // Update current glamour set
         var item = args.Collectible.ExcelRow;
-        currentGlamourSet.SetItem(item, paletteWidgets[item.EquipSlot].ActiveStainPrimary.RowId, paletteWidgets[item.EquipSlot].ActiveStainSecondary.RowId, equipSlot: activeEquipSlot);
+        currentGlamourSet.SetItem(item, paletteWidgets[item.GetEquipSlot()].ActiveStainPrimary.RowId, paletteWidgets[item.GetEquipSlot()].ActiveStainSecondary.RowId, equipSlot: activeEquipSlot);
     }
 
     public void OnPublish(DyeChangeEventArgs args)

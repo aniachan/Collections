@@ -39,12 +39,10 @@ public class MogStationDataGenerator : BaseDataGenerator<uint>
 
         foreach (var fittingShopItemSet in FittingShopItemSetSheet)
         {
-            AddIfNotZero((uint)fittingShopItemSet.Unknown0);
-            AddIfNotZero((uint)fittingShopItemSet.Unknown1);
-            AddIfNotZero((uint)fittingShopItemSet.Unknown2);
-            AddIfNotZero((uint)fittingShopItemSet.Unknown3);
-            AddIfNotZero((uint)fittingShopItemSet.Unknown4);
-            AddIfNotZero((uint)fittingShopItemSet.Unknown5);
+            foreach(var item in fittingShopItemSet.Item)
+            {
+                AddIfNotZero(item.RowId);
+            }
         }
 
         // Override items that shouldn't be considered mog station

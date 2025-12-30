@@ -8,21 +8,21 @@ public class CollectibleKeyFactory
         var keysDataGenerator = Services.DataGenerator.KeysDataGenerator;
         var id = collectible.Id;
 
-        if (type == typeof(ItemAdapter))
+        if (type == typeof(Item))
         {
-            var item = (ItemAdapter)ExcelCache<ItemAdapter>.GetSheet().GetRow(id)!;
+            var item = (Item)ExcelCache<Item>.GetSheet().GetRow(id)!;
             if(item.ItemUICategory.RowId == 112)
             {
-                return CollectibleKeyCache<OutfitKey, ItemAdapter>.Instance.GetObject((item, 0));
+                return CollectibleKeyCache<OutfitKey, Item>.Instance.GetObject((item, 0));
             }
-            return CollectibleKeyCache<ItemKey, ItemAdapter>.Instance.GetObject((item, 0));
+            return CollectibleKeyCache<ItemKey, Item>.Instance.GetObject((item, 0));
         }
 
         if (keysDataGenerator.collectibleIdToItem.TryGetValue(type, out var itemDict))
         {
             if (itemDict.TryGetValue(id, out var item))
             {
-                return CollectibleKeyCache<ItemKey, ItemAdapter>.Instance.GetObject((item, 0));
+                return CollectibleKeyCache<ItemKey, Item>.Instance.GetObject((item, 0));
             }
         }
         if (keysDataGenerator.collectibleIdToQuest.TryGetValue(type, out var questDict))

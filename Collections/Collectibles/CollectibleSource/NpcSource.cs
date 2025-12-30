@@ -60,12 +60,11 @@ public class NpcSource : CollectibleSource
 
     protected override int GetIconId()
     {
-        return 061104;
+        return 000088;
     }
 
     public override NpcSource Clone()
     {
-
         return new NpcSource(eNpcResident.Value);
     }
 }

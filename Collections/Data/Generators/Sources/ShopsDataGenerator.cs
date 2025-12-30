@@ -4,9 +4,9 @@ public class ShopsDataGenerator : BaseDataGenerator<Shop>
 {
     private Dictionary<uint, uint> NpcDataToNpcBase { get; set; } = new();
 
-    private ExcelCache<ItemAdapter> ItemSheet { get; set; }
+    private ExcelCache<Item> ItemSheet { get; set; }
     private ExcelCache<ENpcBase> ENpcBaseSheet { get; set; }
-    private ExcelCache<SpecialShopAdapter> SpecialShopEntitySheet { get; set; }
+    private ExcelCache<SpecialShop> SpecialShopEntitySheet { get; set; }
     private ExcelCache<CustomTalk> CustomTalkSheet { get; set; }
     private ExcelSubRowCache<CustomTalkNestHandlers> CustomTalkNestHandlersSheet { get; set; }
     private ExcelCache<InclusionShop> InclusionShopSheet { get; set; }
@@ -17,9 +17,9 @@ public class ShopsDataGenerator : BaseDataGenerator<Shop>
     protected override void InitializeData()
     {
         //Dev.Start();
-        ItemSheet = ExcelCache<ItemAdapter>.GetSheet();
+        ItemSheet = ExcelCache<Item>.GetSheet();
         ENpcBaseSheet = ExcelCache<ENpcBase>.GetSheet();
-        SpecialShopEntitySheet = ExcelCache<SpecialShopAdapter>.GetSheet();
+        SpecialShopEntitySheet = ExcelCache<SpecialShop>.GetSheet();
         CustomTalkSheet = ExcelCache<CustomTalk>.GetSheet();
         CustomTalkNestHandlersSheet = ExcelSubRowCache<CustomTalkNestHandlers>.GetSheet();
         InclusionShopSheet = ExcelCache<InclusionShop>.GetSheet();
@@ -282,7 +282,7 @@ public class ShopsDataGenerator : BaseDataGenerator<Shop>
                     }
                     if (gilItem != null)
                     {
-                        var costList = new List<(ItemAdapter Item, int Amount)> { ((ItemAdapter)gilItem, (int)item.Value.PriceMid) };
+                        var costList = new List<(Item Item, int Amount)> { ((Item)gilItem, (int)item.Value.PriceMid) };
                         var shopEntry = new Shop(costList, ENpcBaseId, gilShop.RowId);
                         AddEntry(item.Value.RowId, shopEntry);
                     }
@@ -334,7 +334,7 @@ public class ShopsDataGenerator : BaseDataGenerator<Shop>
                         var ENpcBaseId = GetNpcBaseFromNpcData(ENpcDataId);
                         if (GCItem != null)
                         {
-                            var costList = new List<(ItemAdapter Item, int Amount)> { ((ItemAdapter)GCItem!, (int)item.PriceMid) };
+                            var costList = new List<(Item Item, int Amount)> { ((Item)GCItem!, (int)item.PriceMid) };
                             var shopEntry = new Shop(costList, ENpcBaseId, gcShop.RowId);
                             AddEntry(item.RowId, shopEntry);
                         }
@@ -368,18 +368,18 @@ public class ShopsDataGenerator : BaseDataGenerator<Shop>
 
             foreach (var entry in specialShop.Item)
             {
-                var costList = new List<(ItemAdapter Item, int Amount)>();
-
+                var costList = new List<(Item Item, int Amount)>();
+                
                 foreach (var cost in entry.ItemCosts)
                 {
                     if (cost.ItemCost.RowId == 0)
                     {
                         continue;
                     }
-                    var itemAdapter = ItemSheet.GetRow(cost.ItemCost.RowId);
-                    if (itemAdapter != null)
+                    var Item = ItemSheet.GetRow(SpecialShopExtensions.FixItemId(specialShop, cost.ItemCost.RowId, specialShop.UseCurrencyType));
+                    if (Item != null)
                     {
-                        costList.Add((itemAdapter.Value, (int)cost.CurrencyCost));
+                        costList.Add((Item.Value, (int)cost.CurrencyCost));
                     }
                 }
                 foreach (var result in entry.ReceiveItems)
@@ -389,8 +389,8 @@ public class ShopsDataGenerator : BaseDataGenerator<Shop>
                     {
                         break;
                     }
-                    var itemAdapter = ItemSheet.GetRow(result.Item.RowId);
-                    if (itemAdapter != null)
+                    var Item = ItemSheet.GetRow(result.Item.RowId);
+                    if (Item != null)
                     {
                         var shopEntry = new Shop(costList, ENpcBaseId, specialShop.RowId);
                         AddEntry(itemId, shopEntry);

@@ -43,12 +43,12 @@ public class GlamourSet
         Items[equipSlot] = glamouritem;
     }
 
-    public void SetItem(ItemAdapter item, uint stain0Id, uint stain1Id, EquipSlot? equipSlot = null)
+    public void SetItem(Item item, uint stain0Id, uint stain1Id, EquipSlot? equipSlot = null)
     {
-        if (!Services.DataProvider.SupportedEquipSlots.Contains(item.EquipSlot))
-            throw new ArgumentOutOfRangeException($"Equip slot {item.EquipSlot} not supported for GlamourSet");
+        if (!Services.DataProvider.SupportedEquipSlots.Contains(item.GetEquipSlot()))
+            throw new ArgumentOutOfRangeException($"Equip slot {item.GetEquipSlot()} not supported for GlamourSet");
 
-        Items[equipSlot ?? item.EquipSlot] = new GlamourItem(item.RowId, stain0Id, stain1Id);
+        Items[equipSlot ?? item.GetEquipSlot()] = new GlamourItem(item.RowId, stain0Id, stain1Id);
     }
 
     public void ClearEquipSlot(EquipSlot equipSlot)
@@ -73,21 +73,21 @@ public class GlamourItem
 
     public GlamourCollectible GetCollectible()
     {
-        return CollectibleCache<GlamourCollectible, ItemAdapter>.Instance.GetObject(ItemId);
+        return CollectibleCache<GlamourCollectible, Item>.Instance.GetObject(ItemId);
     }
 
-    public StainAdapter GetStainPrimary()
+    public Stain GetStainPrimary()
     {
-        return (StainAdapter)ExcelCache<StainAdapter>.GetSheet().GetRow(Stain0Id)!;
+        return (Stain)ExcelCache<Stain>.GetSheet().GetRow(Stain0Id)!;
     }
-    public StainAdapter GetStainSecondary()
+    public Stain GetStainSecondary()
     {
-        return (StainAdapter)ExcelCache<StainAdapter>.GetSheet().GetRow(Stain1Id)!;
+        return (Stain)ExcelCache<Stain>.GetSheet().GetRow(Stain1Id)!;
     }
 
 
     public EquipSlot GetEquipSlot()
     {
-        return GetCollectible().ExcelRow.EquipSlot;
+        return GetCollectible().ExcelRow.GetEquipSlot();
     }
 }

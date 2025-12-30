@@ -355,7 +355,7 @@ public class GlamourTreeWidget
         // New glamour set added in first directory (0) on the last slot (Count-1)
         SetSelectedGlamourSet(0, glamourTree.Directories[0].GlamourSets.Count - 1, false);
 
-        var itemSheet = ExcelCache<ItemAdapter>.GetSheet()!;
+        var itemSheet = ExcelCache<Item>.GetSheet()!;
         var container = InventoryManager.Instance()->GetInventoryContainer(InventoryType.Examine);
 
         // Add inspected items to set
@@ -369,7 +369,7 @@ public class GlamourTreeWidget
                 var stain1Id = invSlot->Stains[1];
                 var item = itemSheet.GetRow(itemId);
                 if(item is null) return;
-                if (Services.DataProvider.SupportedEquipSlots.Contains(item.Value.EquipSlot))
+                if (Services.DataProvider.SupportedEquipSlots.Contains(item.Value.GetEquipSlot()))
                 {
                     // left hand finger needs to be manually accounted for
                     currentGlamourSet.SetItem(item.Value, stain0Id, stain1Id, i == EquipSlotConverter.EquipSlotToInventorySlot(EquipSlot.FingerL) ? EquipSlot.FingerL : null);

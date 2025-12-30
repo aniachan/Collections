@@ -14,7 +14,7 @@ public unsafe class PlatesExecutor
         return plateAgent->AgentInterface.IsAgentActive();
     }
 
-    public static unsafe void SetPlateItem(ItemAdapter item, byte stain0Id = 0, byte stain1Id = 0, EquipSlot? equipSlot = null)
+    public static unsafe void SetPlateItem(Item item, byte stain0Id = 0, byte stain1Id = 0, EquipSlot? equipSlot = null)
     {
         try
         {
@@ -24,7 +24,7 @@ public unsafe class PlatesExecutor
                 if (!IsInPlateWindow())
                     throw new ApplicationException("Attempt to edit Glamour Plate when plate agent is inactive");
 
-                SetPlateAgentToEquipSlot(equipSlot ?? item.EquipSlot);
+                SetPlateAgentToEquipSlot(equipSlot ?? item.GetEquipSlot());
 
                 // Look up in Dresser
                 if (Services.ItemFinder.IsItemInDresser(item.RowId, checkOutfits: true))

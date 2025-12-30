@@ -2,16 +2,16 @@ namespace Collections;
 
 public class PaletteWidget
 {
-    public StainAdapter ActiveStainPrimary = EmptyStain;
-    public StainAdapter ActiveStainSecondary = EmptyStain;
+    public Stain ActiveStainPrimary = EmptyStain;
+    public Stain ActiveStainSecondary = EmptyStain;
 
     private Vector2 stainButtonSize = new(30, 30);
     private Vector2 stainButtonRectSize = new(35, 35);
     private Vector2 stainButtonRectOffset = new(-3, -3);
     private int stainMaxButtonsPerRow = 9;
 
-    private static readonly Dictionary<int, List<StainAdapter>> StainsByShade = Services.DataProvider.SupportedStains.GroupBy(s => (int)s.Shade).ToDictionary(s => s.Key, s => s.ToList());
-    private static readonly StainAdapter EmptyStain = (StainAdapter)ExcelCache<StainAdapter>.GetSheet().GetRow(0)!;
+    private static readonly Dictionary<int, List<Stain>> StainsByShade = Services.DataProvider.SupportedStains.GroupBy(s => (int)s.Shade).ToDictionary(s => s.Key, s => s.ToList());
+    private static readonly Stain EmptyStain = (Stain)ExcelCache<Stain>.GetSheet().GetRow(0)!;
 
     private EquipSlot EquipSlot { get; init; }
     private EventService EventService { get; init; }
@@ -63,8 +63,7 @@ public class PaletteWidget
             for (var j = 0; j < stainList.Count; j++)
             {
                 var stain = stainList[j];
-                var color = stain.RGBcolor;
-                var colorVec = new Vector4(color.R / 255f, color.G / 255f, color.B / 255f, 1f);
+                var colorVec = stain.VecColor();
                 // Both dye slots set to same color
                 if(ActiveStainPrimary.RowId == stain.RowId && ActiveStainSecondary.RowId == stain.RowId)
                 {
@@ -102,7 +101,7 @@ public class PaletteWidget
                     else {
                         ActiveStainPrimary = stain;
                     }
-                    pickedColor = new Vector3(ActiveStainPrimary.RGBcolor.R / 255f, ActiveStainPrimary.RGBcolor.G / 255f, ActiveStainPrimary.RGBcolor.B / 255f);
+                    pickedColor = ActiveStainPrimary.VecColor().AsVector3();
                     EventService.Publish<DyeChangeEvent, DyeChangeEventArgs>(new DyeChangeEventArgs(EquipSlot));
                 }
                 if(ImGui.IsItemClicked(ImGuiMouseButton.Right))
@@ -115,7 +114,7 @@ public class PaletteWidget
                     else {
                         ActiveStainSecondary = stain;
                     }
-                    pickedColor = new Vector3(ActiveStainPrimary.RGBcolor.R / 255f, ActiveStainPrimary.RGBcolor.G / 255f, ActiveStainPrimary.RGBcolor.B / 255f);
+                    pickedColor = ActiveStainPrimary.VecColor().AsVector3();
                     EventService.Publish<DyeChangeEvent, DyeChangeEventArgs>(new DyeChangeEventArgs(EquipSlot));
                 }
 

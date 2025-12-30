@@ -18,7 +18,7 @@
 
 //     public EquipSlot GetEquipSlot()
 //     {
-//         var equipSlotCategory = ExcelCache<EquipSlotCategoryAdapter>.GetSheet().GetRow(ExcelRow.EquipSlotCategory.RowId);
+//         var equipSlotCategory = ExcelCache<EquipSlotCategory>.GetSheet().GetRow(ExcelRow.EquipSlotCategory.RowId);
 //         return equipSlotCategory.EquipSlot;
 //     }
 
