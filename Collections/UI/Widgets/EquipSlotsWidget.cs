@@ -1,4 +1,3 @@
-using Dalamud.Interface.Textures;
 using System.IO;
 
 namespace Collections;
@@ -8,9 +7,9 @@ public class EquipSlotsWidget
     public EquipSlot activeEquipSlot { get; set; } = EquipSlot.Body;
     public Dictionary<EquipSlot, PaletteWidget> paletteWidgets = new();
 
-    private Vector2 activeEquipSlotRectSize = new(60.2f, 60.2f);
-    private Vector2 equipSlotBackgroundRectSize = new(56, 56);
-    private Vector2 paletteWidgetButtonOffset = new(-34, 35);
+    private Vector2 activeEquipSlotRectSize = new(50.2f, 50.2f);
+    private Vector2 equipSlotBackgroundRectSize = new(46, 46);
+    private Vector2 paletteWidgetButtonOffset = new(-30, 25);
     private Vector4 paletteWidgetButtonDefaultColor = ColorsPalette.WHITE;
 
     public GlamourSet currentGlamourSet { get; set; }
@@ -47,13 +46,13 @@ public class EquipSlotsWidget
             PlatesExecutor.SetPlateItem(glamourItem.GetCollectible().ExcelRow, (byte)glamourItem.Stain0Id, (byte)glamourItem.Stain1Id, equipSlot);
         }
     }
-    
+
     public unsafe void Draw()
     {
         DrawButtons();
 
         var bgColor = *ImGui.GetStyleColorVec4(ImGuiCol.WindowBg);
-        for(int i = 0; i < Services.DataProvider.SupportedEquipSlots.Count; i++)
+        for (int i = 0; i < Services.DataProvider.SupportedEquipSlots.Count; i++)
         {
             EquipSlot equipSlot = Services.DataProvider.SupportedEquipSlots[i];
             // i+1 here so that we only do this every odd item
@@ -91,7 +90,7 @@ public class EquipSlotsWidget
                 icon = equipSlotIcons[equipSlot];
 
             // Draw equip slot buttons
-            if (ImGui.ImageButton(icon.GetWrapOrEmpty().Handle, new Vector2(48, 50)))
+            if (ImGui.ImageButton(icon.GetWrapOrEmpty().Handle, new Vector2(38, 40)))
             {
                 SetEquipSlot(equipSlot);
             }
@@ -215,7 +214,7 @@ public class EquipSlotsWidget
     {
         // reset items
         currentGlamourSet.Items.Clear();
-        
+
         // add items in outfit
         List<Item> items = Services.ItemFinder.ItemsInOutfit(args.Collectible.ExcelRow.RowId);
         foreach (var item in items)
