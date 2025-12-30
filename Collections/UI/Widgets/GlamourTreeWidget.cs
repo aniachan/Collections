@@ -10,6 +10,7 @@ public class GlamourTreeWidget
     private IconHandler glamourPlateIconHandler = new IconHandler(000125);
     private IconHandler copyExamineIconHandler = new IconHandler(060642);
     private Vector2 iconSize = new(21, 21);
+    private bool collapsed = false;
 
     private EventService EventService { get; init; }
     public GlamourTreeWidget(EventService eventService)
@@ -67,7 +68,7 @@ public class GlamourTreeWidget
             //ImGui.Text(FontAwesomeIcon.addre.ToIconString());
             //ImGui.SameLine();
             //if (ImGui.ImageButton(icon.Handle, iconSize))
-            if (ImGuiComponents.IconButton(FontAwesomeIcon.Copy))
+            if (ImGuiComponents.IconButton(FontAwesomeIcon.Copy, iconSize))
             {
                 if (isInPlateWindow)
                     ApplyGlamourSetToPlate();
@@ -368,7 +369,7 @@ public class GlamourTreeWidget
                 var stain0Id = invSlot->Stains[0];
                 var stain1Id = invSlot->Stains[1];
                 var item = itemSheet.GetRow(itemId);
-                if(item is null) return;
+                if (item is null) return;
                 if (Services.DataProvider.SupportedEquipSlots.Contains(item.Value.GetEquipSlot()))
                 {
                     // left hand finger needs to be manually accounted for

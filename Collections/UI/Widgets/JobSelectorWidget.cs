@@ -5,7 +5,7 @@ public class JobSelectorWidget
     public Dictionary<ClassJob, bool> Filters;
 
     private const int JobIconScale = 7;
-    private const int IconSize = 30;
+    private const int IconSize = 25;
     private Vector2 overrideItemSpacing = new(2, 1);
 
     // Specific filter for "All Classes" items
@@ -17,13 +17,14 @@ public class JobSelectorWidget
         EventService = eventService;
         var classJobs = Services.DataProvider.SupportedClassJobs;
         Filters = classJobs.ToDictionary(entry => entry, entry => true);
-        roles = classJobs.GroupBy(entry => {
+        roles = classJobs.GroupBy(entry =>
+        {
             // UI Priority to the rescue
             // specifically want to truncate anything below 10
             // This will probably have to be updated to be more complex
             // once they introduce a new melee class (Viper is at UI prio 39 atm)
             return (uint)entry.UIPriority / 10;
-            }).OrderBy(entry => entry.Key).ToDictionary(entry => entry.Key, entry => entry.OrderBy(job => job.UIPriority).ToList());
+        }).OrderBy(entry => entry.Key).ToDictionary(entry => entry.Key, entry => entry.OrderBy(job => job.UIPriority).ToList());
     }
 
     public void Draw()
@@ -87,14 +88,14 @@ public class JobSelectorWidget
         }
         // "All Classes" Icon Button
         UiHelper.ImageToggleButton(IconHandler.GetIcon(62522), new Vector2(IconSize, IconSize), allClasses);
-        if(ImGui.IsItemClicked(ImGuiMouseButton.Left))
+        if (ImGui.IsItemClicked(ImGuiMouseButton.Left))
         {
             var newState = IsAllActive() ? true : !allClasses;
             SetAllState(false, false);
             allClasses = newState;
             PublishFilterChangeEvent();
         }
-        if(ImGui.IsItemClicked(ImGuiMouseButton.Right))
+        if (ImGui.IsItemClicked(ImGuiMouseButton.Right))
         {
             allClasses = !allClasses;
             PublishFilterChangeEvent();

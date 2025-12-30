@@ -1,3 +1,5 @@
+using System.Security.Cryptography;
+
 namespace Collections;
 
 public class GlamourTab : IDrawable
@@ -9,6 +11,8 @@ public class GlamourTab : IDrawable
     private EquipSlotsWidget EquipSlotsWidget { get; init; }
     private CollectionWidget CollectionWidget { get; init; }
     private EventService EventService { get; init; }
+    private bool FiltersCollapsed { get; set; } = false;
+
     public GlamourTab()
     {
         EventService = new EventService();
@@ -31,7 +35,7 @@ public class GlamourTab : IDrawable
         GlamourTreeWidget.SetSelectedGlamourSet(0, 0, false);
     }
 
-    private const int GlamourSetsWidgetWidth = 17;
+    private const int GlamourSetsWidgetWidth = 15;
     private const int SpaceBetweenFilterWidgets = 3;
 
     public void Draw()
@@ -40,13 +44,21 @@ public class GlamourTab : IDrawable
 
         if (ImGui.BeginTable("glam-tree", 1, ImGuiTableFlags.Borders | ImGuiTableFlags.NoHostExtendX | ImGuiTableFlags.SizingFixedFit))
         {
-            ImGui.TableSetupColumn("Glamour Sets", ImGuiTableColumnFlags.None, UiHelper.UnitWidth() * GlamourSetsWidgetWidth);
-            ImGui.TableHeadersRow();
 
+            ImGui.TableSetupColumn("Sets", ImGuiTableColumnFlags.None, UiHelper.UnitWidth() * GlamourSetsWidgetWidth);
+            ImGui.TableHeadersRow();
+            // if (ImGuiComponents.IconButton(FontAwesomeIcon.ArrowLeft))
+            // {
+            //     GlamourTreeCollapsed = !GlamourTreeCollapsed;
+            // }
+
+            // if (!GlamourTreeCollapsed)
+            // {
             ImGui.TableNextRow(ImGuiTableRowFlags.None, UiHelper.GetLengthToBottomOfWindow());
             ImGui.TableNextColumn();
 
             GlamourTreeWidget.Draw();
+            // }
 
             ImGui.EndTable();
         }
@@ -72,21 +84,59 @@ public class GlamourTab : IDrawable
         ImGui.BeginGroup();
         if (ImGui.BeginTable("filters", 1, ImGuiTableFlags.Borders | ImGuiTableFlags.NoHostExtendX | ImGuiTableFlags.SizingFixedSame))
         {
-            ImGui.TableNextColumn();
-            ImGui.TableHeader("Equipped By");
 
-            ImGui.TableNextRow(ImGuiTableRowFlags.None, (UiHelper.GetLengthToBottomOfWindow() / 2) - (UiHelper.UnitHeight() * SpaceBetweenFilterWidgets));
             ImGui.TableNextColumn();
-            JobSelectorWidget.Draw();
+            // ImGui.TableHeader("Filters");
 
-            ImGui.TableNextRow();
-            ImGui.TableNextColumn();
-            ImGui.TableHeader("Content Filters");
+            // Draw button as a group
+            UiHelper.GroupWithMinWidth(() =>
+            {
+                var cursorPos = ImGui.GetCursorPos();
+                ImGui.TableHeader("");
+                ImGui.SetCursorPos(new Vector2(cursorPos.X + 2, cursorPos.Y));
+                if (!FiltersCollapsed)
+                {
+                    ImGuiComponents.IconButton(FontAwesomeIcon.ArrowLeft);
+                    ImGui.SameLine();
+                    ImGui.Text("Filter");
+                }
+                else
+                {
+                    ImGuiComponents.IconButton(FontAwesomeIcon.ArrowRight);
+                }
+            }, 5);
+            // var cursorPos = ImGui.GetCursorPos();
+            // ImGui.TableHeader("");
+            // ImGui.SetCursorPos(new Vector2(cursorPos.X + 5, cursorPos.Y));
+            // if (ImGuiComponents.IconButton(FontAwesomeIcon.Filter, new Vector2(13, 13)))
+            if (ImGui.IsItemClicked())
+            {
+                FiltersCollapsed = !FiltersCollapsed;
+            }
 
-            ImGui.TableNextRow(ImGuiTableRowFlags.None, UiHelper.GetLengthToBottomOfWindow());
-            ImGui.TableNextColumn();
-            ContentFiltersWidget.Draw();
+            if (!FiltersCollapsed)
+            {
+                // ImGui.TableNextRow();
+                // ImGui.TableNextColumn();
+                // ImGui.Text("Jobs");
+                // if (ImGui.IsItemClicked())
+                // {
+                //     FiltersCollapsed = !FiltersCollapsed;
+                // }
 
+                ImGui.TableNextRow(ImGuiTableRowFlags.None, (UiHelper.GetLengthToBottomOfWindow() / 2) - (UiHelper.UnitHeight() * SpaceBetweenFilterWidgets));
+                ImGui.TableNextColumn();
+                JobSelectorWidget.Draw();
+
+                ImGui.TableNextRow();
+                ImGui.TableNextColumn();
+                // ImGui.TableHeader("Content Filters");
+                ImGui.Text("Source");
+
+                ImGui.TableNextRow(ImGuiTableRowFlags.None, UiHelper.GetLengthToBottomOfWindow());
+                ImGui.TableNextColumn();
+                ContentFiltersWidget.Draw();
+            }
             ImGui.EndTable();
         }
 

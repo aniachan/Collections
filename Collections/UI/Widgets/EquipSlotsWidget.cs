@@ -9,8 +9,9 @@ public class EquipSlotsWidget
 
     private Vector2 activeEquipSlotRectSize = new(50.2f, 50.2f);
     private Vector2 equipSlotBackgroundRectSize = new(46, 46);
-    private Vector2 paletteWidgetButtonOffset = new(-30, 25);
+    private Vector2 paletteWidgetButtonOffset = new(-25, 34);
     private Vector4 paletteWidgetButtonDefaultColor = ColorsPalette.WHITE;
+    private Vector2 brushIconRectSize = new(5, 5);
 
     public GlamourSet currentGlamourSet { get; set; }
     private Dictionary<EquipSlot, bool> hoveredPaletteButton = new();
@@ -121,7 +122,7 @@ public class EquipSlotsWidget
                 paletteWidgetButtonDefaultColor : paletteWidgets[equipSlot].ActiveStainPrimary.VecColor();
             ImGui.PushStyleColor(ImGuiCol.Text, paletteButtonColor);
             ImGui.PushStyleColor(ImGuiCol.ButtonHovered, new Vector4(0, 0, 0, 0));
-            ImGuiComponents.IconButton(FontAwesomeIcon.PaintBrush);
+            ImGuiComponents.IconButton(FontAwesomeIcon.PaintBrush, brushIconRectSize);
             ImGui.PopStyleColor();
             ImGui.PopStyleColor();
 
